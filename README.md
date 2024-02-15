@@ -1,4 +1,4 @@
-# test_db_employee
+# test_db
 A mysql docker with sample employee database with an integrated test suite, used to test your applications and database servers
 
 This repository was migrated from [Launchpad](https://launchpad.net/test-db).
@@ -38,7 +38,7 @@ Pull the image
 
 Run the image with following environment variable. Make sure to set  MYSQL_DATABASE variable to  'employees'.
 
-    docker run --name <some-name> -e MYSQL_ROOT_PASSWORD=<password> -e MYSQL_USER=<username> -e MYSQL_PASSWORD=<password> -e MYSQL_DATABASE=employees
+    docker run --name <some-name> -e MYSQL_ROOT_PASSWORD=<password> -e MYSQL_USER=<username> -e MYSQL_PASSWORD=<password> -e MYSQL_DATABASE=employees -d nihadtp/mysql:latest
 
 Check the docker descktop if the container is up and running.
 ## Testing the installation
