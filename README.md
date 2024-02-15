@@ -1,4 +1,4 @@
-# test_db
+# test_db_employee
 A mysql docker with sample employee database with an integrated test suite, used to test your applications and database servers
 
 This repository was migrated from [Launchpad](https://launchpad.net/test-db).
