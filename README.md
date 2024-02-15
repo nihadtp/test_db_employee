@@ -1,5 +1,5 @@
 # test_db
-A sample database with an integrated test suite, used to test your applications and database servers
+A mysql docker with sample employee database with an integrated test suite, used to test your applications and database servers
 
 This repository was migrated from [Launchpad](https://launchpad.net/test-db).
 
@@ -25,77 +25,75 @@ untouched, and use these issues as data cleaning exercises.
 
 ## Prerequisites
 
-You need a MySQL database server (5.0+) and run the commands below through a 
-user that has the following privileges:
-
-    SELECT, INSERT, UPDATE, DELETE, 
-    CREATE, DROP, RELOAD, REFERENCES, 
-    INDEX, ALTER, SHOW DATABASES, 
-    CREATE TEMPORARY TABLES, 
-    LOCK TABLES, EXECUTE, CREATE VIEW
+Docker 
 
 ## Installation:
 
-1. Download the repository
-2. Change directory to the repository
-
-Then run
-
-    mysql < employees.sql
 
 
-If you want to install with two large partitioned tables, run
+Pull the image
 
-    mysql < employees_partitioned.sql
+    docker pull nihadtp/mysql:latest
 
 
+Run the image with following environment variable. Make sure to set  MYSQL_DATABASE variable to  'employees'.
+
+    docker run --name <some-name> -e MYSQL_ROOT_PASSWORD=<password> -e MYSQL_USER=<username> -e MYSQL_PASSWORD=<password> -e MYSQL_DATABASE=employees
+
+Check the docker descktop if the container is up and running.
 ## Testing the installation
 
-After installing, you can run one of the following
+After container is up, you can run following
 
-    mysql -t < test_employees_md5.sql
-    # OR
-    mysql -t < test_employees_sha.sql
+    docker exec -it <some-name> bash -c 'mysql -u <username> -p<password>'
 
-For example:
+Now you are in  mysql shell inside the container. Test the databases and tables.
 
-    mysql  -t < test_employees_md5.sql
+    mysql> show databases;
+    +--------------------+
+    | Database           |
+    +--------------------+
+    | employees          |
+    | information_schema |
+    | performance_schema |
+    +--------------------+
+    3 rows in set (0.09 sec)
+    
+    mysql> USE employees
+    Reading table information for completion of table and column names
+    You can turn off this feature to get a quicker startup with -A
+    
+    Database changed
+    mysql> show tables;
     +----------------------+
-    | INFO                 |
+    | Tables_in_employees  |
     +----------------------+
-    | TESTING INSTALLATION |
+    | current_dept_emp     |
+    | departments          |
+    | dept_emp             |
+    | dept_emp_latest_date |
+    | dept_manager         |
+    | employees            |
+    | salaries             |
+    | titles               |
     +----------------------+
-    +--------------+------------------+----------------------------------+
-    | table_name   | expected_records | expected_crc                     |
-    +--------------+------------------+----------------------------------+
-    | employees    |           300024 | 4ec56ab5ba37218d187cf6ab09ce1aa1 |
-    | departments  |                9 | d1af5e170d2d1591d776d5638d71fc5f |
-    | dept_manager |               24 | 8720e2f0853ac9096b689c14664f847e |
-    | dept_emp     |           331603 | ccf6fe516f990bdaa49713fc478701b7 |
-    | titles       |           443308 | bfa016c472df68e70a03facafa1bc0a8 |
-    | salaries     |          2844047 | fd220654e95aea1b169624ffe3fca934 |
-    +--------------+------------------+----------------------------------+
-    +--------------+------------------+----------------------------------+
-    | table_name   | found_records    | found_crc                        |
-    +--------------+------------------+----------------------------------+
-    | employees    |           300024 | 4ec56ab5ba37218d187cf6ab09ce1aa1 |
-    | departments  |                9 | d1af5e170d2d1591d776d5638d71fc5f |
-    | dept_manager |               24 | 8720e2f0853ac9096b689c14664f847e |
-    | dept_emp     |           331603 | ccf6fe516f990bdaa49713fc478701b7 |
-    | titles       |           443308 | bfa016c472df68e70a03facafa1bc0a8 |
-    | salaries     |          2844047 | fd220654e95aea1b169624ffe3fca934 |
-    +--------------+------------------+----------------------------------+
-    +--------------+---------------+-----------+
-    | table_name   | records_match | crc_match |
-    +--------------+---------------+-----------+
-    | employees    | OK            | ok        |
-    | departments  | OK            | ok        |
-    | dept_manager | OK            | ok        |
-    | dept_emp     | OK            | ok        |
-    | titles       | OK            | ok        |
-    | salaries     | OK            | ok        |
-    +--------------+---------------+-----------+
+    8 rows in set (0.02 sec)
+    
+    mysql> describe salaries;
+    +-----------+------+------+-----+---------+-------+
+    | Field     | Type | Null | Key | Default | Extra |
+    +-----------+------+------+-----+---------+-------+
+    | emp_no    | int  | NO   | PRI | NULL    |       |
+    | salary    | int  | NO   |     | NULL    |       |
+    | from_date | date | NO   | PRI | NULL    |       |
+    | to_date   | date | NO   |     | NULL    |       |
+    +-----------+------+------+-----+---------+-------+
+    4 rows in set (0.04 sec)
 
+
+## FOR MORE OPTIONS FOR MYSQL
+
+Visit https://hub.docker.com/_/mysql for more options assosciated with mysql docker image.
 
 ## DISCLAIMER
 
