@@ -89,6 +89,10 @@ Now you are in  mysql shell inside the container. Test the databases and tables.
     | to_date   | date | NO   |     | NULL    |       |
     +-----------+------+------+-----+---------+-------+
     4 rows in set (0.04 sec)
+    
+## Employee database schema
+
+![Employee Schema](images/employees.png)
 
 
 ## FOR MORE OPTIONS FOR MYSQL

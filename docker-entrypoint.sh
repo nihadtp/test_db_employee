@@ -396,6 +396,7 @@ _main() {
 			if [ -n "$RESTORE_DUMP_FILE" ]; then
                 mysql_note "Restoring dump file: $RESTORE_DUMP_FILE"
                 mysql -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" "$MYSQL_DATABASE" < "$RESTORE_DUMP_FILE"
+				mysql_note "Dump file restored"
             fi
 
 			mysql_expire_root_user
